@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Théo faz 4 anos! Convite Vingadores</title>
+<meta name="description" content="Você foi convocado! Théo faz 4 anos dia 13/12, às 15h, no Salão Espaço Magnata. Toque para iniciar a missão.">
+<meta name="theme-color" content="#0a1030">
+<meta property="og:title" content="Théo faz 4 anos! Você foi convocado!">
+<meta property="og:description" content="13/12 às 15h - Salão Espaço Magnata. Toque para iniciar a missão.">
+<meta property="og:image" content="cena.jpg">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="styles.css">
+<link rel="preload" as="image" href="cena.jpg">
+</head>
+<body>
+
+<!-- ABERTURA -->
+<section id="intro" aria-label="Abertura do convite">
+  <div class="intro-bg" aria-hidden="true"></div>
+  <div class="beam beam-r" aria-hidden="true"></div>
+  <div class="beam beam-b" aria-hidden="true"></div>
+  <div id="introStart" class="intro-start">
+    <p class="alert-box"><b>ALERTA!</b> O pequeno herói Théo precisa de você para sua missão de aniversário!</p>
+    <p class="intro-line">UMA MISSÃO ESPECIAL<br>ESTÁ PRESTES A COMEÇAR...</p>
+    <button id="startBtn" class="btn btn-big btn-red" type="button">INICIAR MISSÃO</button>
+    <p class="intro-hint">Ative o som para a experiência completa</p>
+    <button id="skipStart" class="link-btn" type="button">Pular animações e ver o convite</button>
+  </div>
+  <video id="cena" class="cena" muted playsinline webkit-playsinline preload="auto" poster="cena.jpg" src="cena.mp4" aria-hidden="true"></video>
+  <p id="caption" class="caption" aria-live="polite"></p>
+  <button id="skipBtn" class="skip" type="button" hidden>PULAR &#9654;&#9654;</button>
+
+  <!-- tela 3: escolha do herói -->
+  <div id="heroPick" class="panel" hidden>
+    <h2 class="panel-title">ESCOLHA SEU HERÓI<br><small>para entrar na missão</small></h2>
+    <div class="picker" data-picker></div>
+    <p class="hero-msg" data-heromsg aria-live="polite"></p>
+    <button id="pickGo" class="btn btn-big btn-green" type="button">CONTINUAR</button>
+  </div>
+
+  <!-- tela 4: minijogo -->
+  <div id="game" class="panel game" hidden>
+    <h2 class="panel-title">LANCE A TEIA!<br><small>Acerte 3 alvos</small></h2>
+    <p class="game-count" id="gameCount" aria-live="polite">0 / 3</p>
+    <div id="arena" class="arena" aria-label="Área do jogo: toque nos alvos para lançar a teia"></div>
+    <div id="gameWin" class="game-win" hidden>
+      <p>MISSÃO CONCLUÍDA!<br><span>VOCÊ ESTÁ CONVIDADO!</span></p>
+      <button id="gameGo" class="btn btn-big btn-gold" type="button">VER O CONVITE</button>
+    </div>
+  </div>
+  <svg id="sideWebs" class="side-webs" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div id="swing" class="swing" aria-hidden="true">
+    <div class="swing-line"></div>
+    <img class="swing-hero" src="spider.webp" alt="" width="140" height="179">
+  </div>
+  <div id="webBurst" class="web-burst" aria-hidden="true"></div>
+</section>
+<canvas id="fx" aria-hidden="true"></canvas>
+<audio id="music" preload="auto" loop src="musica.mp3"></audio>
+<audio id="narr" preload="auto" src="narracao.mp3"></audio>
+
+<!-- CONVITE -->
+<main id="main" class="main" hidden>
+  <video id="bgvid" class="bgvid" muted loop playsinline preload="auto" src="cena.mp4" aria-hidden="true"></video>
+  <div class="bgshade" aria-hidden="true"></div>
+  <div class="stars-bg" aria-hidden="true"></div>
+  <div id="webLayer" class="web-layer" aria-hidden="true"></div>
+
+  <header class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <p class="call" id="call">ATENÇÃO, SUPER-HERÓI!<br><span>VOCÊ FOI CONVOCADO!</span></p>
+
+    <div class="stage" id="stage">
+      <img class="h h-thor" src="thor.webp" alt="Thor" data-depth="0.5" width="305" height="467">
+      <img class="h h-iron" src="iron.webp" alt="Homem de Ferro" data-depth="0.8" width="318" height="655">
+      <img class="h h-hulk" src="hulk.webp" alt="Hulk" data-depth="0.8" width="333" height="370">
+      <img class="h h-cap"  src="cap.webp"  alt="Capitão América" data-depth="0.5" width="310" height="537">
+      <img class="h h-spider" src="spider.webp" alt="Homem-Aranha, no centro" data-depth="1.2" width="421" height="442">
+    </div>
+
+    <h1 class="title" id="title" aria-label="Théo faz 4 anos!">
+      <span class="t-name" aria-hidden="true">THÉO</span>
+      <span class="t-row" aria-hidden="true"><span class="t-faz">FAZ</span>
+        <button id="four" class="four" type="button" aria-label="Número 4. Toque para uma surpresa!"><span>4</span><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></button>
+        <span class="t-anos">ANOS!</span></span>
+    </h1>
+    <p class="tap-hint">Toque no <b>4</b> para uma surpresa</p>
+    <a class="scroll-cue" href="#info" aria-label="Ver informações da festa">▾</a>
+  </header>
+
+  <section class="sec" id="info" aria-labelledby="h-info">
+    <h2 id="h-info" class="sec-title">MISSÃO: ANIVERSÁRIO</h2>
+
+    <div class="count" role="timer" aria-label="Contagem regressiva para 13 de dezembro de 2026 às 15h, horário de Brasília">
+      <p class="count-title">FALTAM</p>
+      <div class="count-grid">
+        <div class="cc"><b id="cd-d">--</b><span>dias</span></div>
+        <div class="cc"><b id="cd-h">--</b><span>horas</span></div>
+        <div class="cc"><b id="cd-m">--</b><span>min</span></div>
+        <div class="cc"><b id="cd-s">--</b><span>seg</span></div>
+      </div>
+      <p class="count-note">13 de dezembro de 2026, 15h (horário de Brasília)</p>
+    </div>
+
+    <div class="cards">
+      <article class="card reveal" style="--d:0ms">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="10" width="34" height="31" rx="5" fill="#fff" stroke="#0a1030" stroke-width="3"/><rect x="7" y="10" width="34" height="10" rx="5" fill="#e11d2e" stroke="#0a1030" stroke-width="3"/><path d="M15 5v9M33 5v9" stroke="#0a1030" stroke-width="3.5" stroke-linecap="round"/><text x="24" y="36" font-size="15" font-weight="900" text-anchor="middle" fill="#0a1030" font-family="Arial">13</text></svg>
+        <h3>DATA</h3><p>13/12</p>
+      </article>
+      <article class="card reveal" style="--d:120ms">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="25" r="18" fill="#fff" stroke="#0a1030" stroke-width="3"/><path d="M24 13v12l8 5" fill="none" stroke="#e11d2e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 4h14" stroke="#0a1030" stroke-width="3.5" stroke-linecap="round"/></svg>
+        <h3>HORÁRIO</h3><p>15h</p>
+      </article>
+      <article class="card wide reveal" style="--d:240ms">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44S9 29 9 19a15 15 0 0130 0c0 10-15 25-15 25z" fill="#e11d2e" stroke="#0a1030" stroke-width="3"/><circle cx="24" cy="19" r="6" fill="#fff" stroke="#0a1030" stroke-width="3"/></svg>
+        <h3>LOCAL</h3><p>Salão Espaço Magnata</p><small>Rua E, nº 5 - Cosmos</small>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="gifts" aria-labelledby="h-gifts">
+    <h2 id="h-gifts" class="sec-title">EQUIPAMENTOS PARA O NOSSO HERÓI</h2>
+    <p class="sec-sub">Toque nos itens para ver os detalhes</p>
+    <div class="gifts">
+      <button class="gift" type="button" aria-pressed="false">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 8l12 6 12-6 14 10-8 12-6-4v30H20V26l-6 4-8-12z" fill="#2d6bff" stroke="#0a1030" stroke-width="3" stroke-linejoin="round"/><path d="M26 8c1 5 5 8 6 8s5-3 6-8" fill="#fff" stroke="#0a1030" stroke-width="3"/></svg>
+        <b>ROUPAS</b><span class="gv">4/5 anos</span>
+      </button>
+      <button class="gift" type="button" aria-pressed="false">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 38c10 2 14-4 16-14l8 6c3 2 7 3 12 4l10 3c4 1 6 4 6 8v4H8z" fill="#e11d2e" stroke="#0a1030" stroke-width="3" stroke-linejoin="round"/><path d="M8 48h56" stroke="#0a1030" stroke-width="3"/><path d="M32 30l-3 5M39 33l-3 5" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+        <b>CALÇADOS</b><span class="gv">29/30</span>
+      </button>
+      <button class="gift" type="button" aria-pressed="false">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="26" width="36" height="32" rx="8" fill="#ffc400" stroke="#0a1030" stroke-width="3"/><rect x="24" y="14" width="16" height="12" rx="3" fill="#0a1030"/><rect x="28" y="6" width="8" height="8" rx="2" fill="#e11d2e" stroke="#0a1030" stroke-width="3"/><path d="M22 36v14" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"/></svg>
+        <b>PERFUMES</b><span class="gv">Heróis também cheiram bem!</span>
+      </button>
+      <button class="gift" type="button" aria-pressed="false">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="30" width="48" height="26" rx="4" fill="#27c24c" stroke="#0a1030" stroke-width="3"/><rect x="5" y="20" width="54" height="12" rx="4" fill="#e11d2e" stroke="#0a1030" stroke-width="3"/><path d="M32 20v36" stroke="#ffc400" stroke-width="6"/><path d="M32 20c-6-12-18-8-12-2m12 2c6-12 18-8 12-2" fill="none" stroke="#0a1030" stroke-width="3" stroke-linecap="round"/></svg>
+        <b>BRINQUEDOS</b><span class="gv">Diversão garantida!</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="sec cooler-sec" id="cooler" aria-labelledby="h-cooler">
+    <h2 id="h-cooler" class="sec-title big">OPEN COOLER<br><small>Traga seu cooler!</small></h2>
+    <button id="coolerBtn" class="cooler" type="button" aria-label="Cooler de festa. Toque para abrir e fechar a tampa.">
+      <svg viewBox="0 0 220 190" aria-hidden="true">
+        <g id="bottles">
+          <g class="bot b1"><rect x="62" y="38" width="22" height="60" rx="8" fill="#27c24c" stroke="#0a1030" stroke-width="4"/><rect x="68" y="22" width="10" height="20" rx="3" fill="#27c24c" stroke="#0a1030" stroke-width="4"/></g>
+          <g class="bot b2"><rect x="100" y="30" width="24" height="68" rx="9" fill="#ffc400" stroke="#0a1030" stroke-width="4"/><rect x="107" y="12" width="10" height="22" rx="3" fill="#ffc400" stroke="#0a1030" stroke-width="4"/></g>
+          <g class="bot b3"><rect x="140" y="40" width="22" height="58" rx="8" fill="#e11d2e" stroke="#0a1030" stroke-width="4"/><rect x="146" y="24" width="10" height="20" rx="3" fill="#e11d2e" stroke="#0a1030" stroke-width="4"/></g>
+        </g>
+        <rect x="26" y="86" width="168" height="90" rx="14" fill="#2d6bff" stroke="#0a1030" stroke-width="5"/>
+        <rect x="26" y="86" width="168" height="22" fill="#fff" stroke="#0a1030" stroke-width="5"/>
+        <path d="M70 130h80M70 150h80" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".55"/>
+        <g class="lid"><rect x="16" y="64" width="188" height="28" rx="12" fill="#e11d2e" stroke="#0a1030" stroke-width="5"/><rect x="88" y="52" width="44" height="16" rx="8" fill="#fff" stroke="#0a1030" stroke-width="5"/></g>
+      </svg>
+      <span class="bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </button>
+    <p class="sec-sub">Toque no cooler!</p>
+  </section>
+
+  <section class="sec" id="badge" aria-labelledby="h-badge">
+    <h2 id="h-badge" class="sec-title">SUA CARTEIRINHA DE HERÓI</h2>
+    <p class="sec-sub">Escolha seu herói e digite seu nome</p>
+    <div class="picker" data-picker></div>
+    <p class="hero-msg" data-heromsg></p>
+    <label class="lbl" for="badgeName">Seu nome</label>
+    <input id="badgeName" class="inp" type="text" maxlength="24" autocomplete="name" placeholder="Nome do agente">
+    <canvas id="badgeCv" class="badge-cv" width="640" height="880" role="img" aria-label="Credencial: Agente convocado, missão Théo 4 anos"></canvas>
+    <div class="badge-act">
+      <button id="badgeSave" class="btn btn-blue" type="button">SALVAR IMAGEM</button>
+      <button id="badgeShare" class="btn btn-gold" type="button">COMPARTILHAR</button>
+    </div>
+  </section>
+
+  <section class="sec actions" id="actions" aria-labelledby="h-act">
+    <h2 id="h-act" class="sec-title">PREPARE-SE, HERÓI!</h2>
+    <div class="act-grid">
+      <button id="rsvpBtn" class="btn btn-big btn-green" type="button">CONFIRMAR PRESENÇA</button>
+      <a id="mapBtn" class="btn btn-big btn-blue" href="#" target="_blank" rel="noopener noreferrer">COMO CHEGAR</a>
+    </div>
+    <p class="foot">Théo faz 4 anos! Esperamos você!</p>
+  </section>
+</main>
+
+<!-- som -->
+<button id="soundBtn" class="sound" type="button" aria-pressed="true" aria-label="Desligar som" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path class="sp" d="M3 9v6h4l5 4V5L7 9z" fill="currentColor"/><path class="on" d="M16 8a5 5 0 010 8M18.5 5.5a9 9 0 010 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="off" d="M16 9l6 6m0-6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+
+<!-- surpresa do 4 -->
+<div id="surprise" class="surprise" role="dialog" aria-modal="true" aria-labelledby="sTitle" hidden>
+  <div class="s-box">
+    <div class="s-four" aria-hidden="true">4</div>
+    <p id="sTitle">O THÉO ESTÁ<br>ESPERANDO VOCÊ!</p>
+    <button id="sClose" class="btn btn-red" type="button">FECHAR</button>
+  </div>
+</div>
+
+<div id="imgView" class="surprise" role="dialog" aria-modal="true" aria-label="Sua carteirinha" hidden>
+  <div class="s-box">
+    <p class="r-note">Segure o dedo sobre a imagem e escolha salvar (no computador, clique com o botão direito).</p>
+    <img id="imgViewImg" class="badge-cv" alt="Carteirinha Agente Convocado, Missão Théo 4 anos">
+    <div class="r-act"><button id="imgClose" class="btn btn-ghost" type="button">FECHAR</button></div>
+  </div>
+</div>
+
+<!-- RSVP -->
+<div id="rsvp" class="surprise" role="dialog" aria-modal="true" aria-labelledby="rTitle" hidden>
+  <form class="s-box rsvp-box" id="rsvpForm">
+    <p id="rTitle" class="r-title">CONFIRMAR PRESENÇA</p>
+    <label for="guest">Seu nome</label>
+    <input id="guest" name="guest" type="text" autocomplete="name" maxlength="60" placeholder="Quem vai?" required>
+    <label for="qty">Quantas pessoas?</label>
+    <input id="qty" name="qty" type="number" inputmode="numeric" min="1" max="20" value="1">
+    <p id="rNote" class="r-note"></p>
+    <div class="r-act"><button id="rSend" class="btn btn-green" type="button">ENVIAR NO WHATSAPP</button><button id="rClose" class="btn btn-ghost" type="button">CANCELAR</button></div>
+  </form>
+</div>
+
+<!-- tela 8: missão concluída -->
+<div id="done" class="surprise" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+  <div class="s-box done-box">
+    <p id="dTitle" class="d-title">MISSÃO CONCLUÍDA!</p>
+    <p class="d-note" id="dNote"></p>
+    <button id="cake" class="cake" type="button" aria-label="Bolo com quatro velas. Toque para soprar as velas.">
+      <svg viewBox="0 0 200 190" aria-hidden="true">
+        <g class="candles">
+          <g class="cd"><rect x="52" y="34" width="10" height="38" rx="3" fill="#2d6bff" stroke="#0a1030" stroke-width="3"/><path class="flame" d="M57 12c6 8 6 14 0 18-6-4-6-10 0-18z" fill="#ffc400" stroke="#e11d2e" stroke-width="2"/></g>
+          <g class="cd"><rect x="82" y="30" width="10" height="42" rx="3" fill="#e11d2e" stroke="#0a1030" stroke-width="3"/><path class="flame" d="M87 8c6 8 6 14 0 18-6-4-6-10 0-18z" fill="#ffc400" stroke="#e11d2e" stroke-width="2"/></g>
+          <g class="cd"><rect x="112" y="30" width="10" height="42" rx="3" fill="#27c24c" stroke="#0a1030" stroke-width="3"/><path class="flame" d="M117 8c6 8 6 14 0 18-6-4-6-10 0-18z" fill="#ffc400" stroke="#e11d2e" stroke-width="2"/></g>
+          <g class="cd"><rect x="142" y="34" width="10" height="38" rx="3" fill="#ffc400" stroke="#0a1030" stroke-width="3"/><path class="flame" d="M147 12c6 8 6 14 0 18-6-4-6-10 0-18z" fill="#ffc400" stroke="#e11d2e" stroke-width="2"/></g>
+        </g>
+        <rect x="28" y="70" width="144" height="40" rx="10" fill="#fff" stroke="#0a1030" stroke-width="4"/>
+        <path d="M28 88c12 14 24-6 36 6s24-6 36 6 24-6 36 6 24-6 36 0" fill="none" stroke="#e11d2e" stroke-width="5"/>
+        <rect x="14" y="108" width="172" height="58" rx="12" fill="#2d6bff" stroke="#0a1030" stroke-width="4"/>
+        <text x="100" y="148" font-size="32" font-weight="900" text-anchor="middle" fill="#ffc400" stroke="#0a1030" stroke-width="1.5" font-family="Arial">THÉO 4</text>
+      </svg>
+    </button>
+    <p class="d-msg">O THÉO ESTÁ ESPERANDO<br>VOCÊ, SUPER-HERÓI!</p>
+    <canvas id="doneCv" class="badge-cv small" width="640" height="880" aria-hidden="true"></canvas>
+    <div class="r-act"><button id="doneSave" class="btn btn-blue" type="button">SALVAR CARTEIRINHA</button><button id="dClose" class="btn btn-ghost" type="button">FECHAR</button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
