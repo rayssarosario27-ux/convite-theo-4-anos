@@ -418,3 +418,7 @@ body{font-weight:700;-webkit-font-smoothing:antialiased;text-rendering:optimizeL
 .btn-green,.btn-red{color:#02101c}.btn-red{color:#fff}
 .h-hulk{right:-3%;height:60%;bottom:-2%;z-index:4;-webkit-mask-image:none;mask-image:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.55))}
 .h-cap{right:2%;height:54%;bottom:30%}
+/* equipamentos: estado clicado com fundo escuro para leitura */
+.gift[aria-pressed=true]{background:linear-gradient(rgba(8,18,44,.97),rgba(3,9,24,.97));border-color:var(--mg);box-shadow:0 0 28px rgba(255,60,172,.45)}
+.gift[aria-pressed=true] b{color:#fff}
+.gift[aria-pressed=true] .gv{color:#ff9de0}
