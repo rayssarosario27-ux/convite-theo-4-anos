@@ -16,7 +16,7 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
   var wa = (CONFIG.whatsapp || '').replace(/\D/g, '');
-
+document.addEventListener('DOMContentLoaded',function(){var n=$('narr');if(n)n.addEventListener('ended',function(){var c=$('caption');if(c)c.textContent='';});});
   /* ===== TOAST ===== */
   var toastT;
   function toast(msg) {
